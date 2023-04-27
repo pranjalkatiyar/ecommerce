@@ -4,6 +4,7 @@ const User = require("../modals/userModals");
 const sendToken = require("../utils/jwtTokens");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
+const mongoose=require('mongoose');
 
 // register a user
 

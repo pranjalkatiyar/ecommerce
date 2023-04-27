@@ -20,17 +20,18 @@ exports.getAllProducts = catchAsyncErrors(async (req, res) => {
   const resPerPage = 4;
   const productCount = await Product.countDocuments();
 
-  const apiFeature = new ApiFeatures(Product.find(), req.query)
-    .search()
-    .filter()
-    .pagination(resPerPage);
-  //  now not use this because we have created a class for this
-  // let query, so it will be using that property of that class
-  // const product = await Product.find();
+  const apiFeatures = new ApiFeatures(Product.find(), req.query)
+  .search()
+  .filter()
+  .pagination(resPerPage);
 
-  const product = await apiFeature.query;
+// Execute the query
+const products = await apiFeatures.query;
+const filteredProductsCount = products.length;
 
-  res.status(200).json({ success: true, product, productCount });
+// Send the response
+ 
+  res.status(200).json({ success: true, product:products, productCount, resPerPage,filteredProductsCount });
 });
 
 // get single product
@@ -123,19 +124,17 @@ exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-
 // get all reviews of a product
 
 exports.getProductReviews = catchAsyncErrors(async (req, res, next) => {
-
   const product = await Product.findById(req.query.id);
 
-  if(!product){
-    return next(new ErrorHandler("product not found",404))
+  if (!product) {
+    return next(new ErrorHandler("product not found", 404));
   }
   res.status(200).json({
     success: true,
-    reviews:product.reviews
+    reviews: product.reviews,
   });
 });
 
