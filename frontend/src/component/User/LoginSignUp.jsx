@@ -1,15 +1,22 @@
-import React, { useRef ,useState} from "react";
-import { Link } from "react-router-dom";
+import React, { useRef ,useState,useEffect} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { MdMailOutline } from "react-icons/md";
 import { MdLock } from "react-icons/md";
 import "./LoginSignUp.css";
 import { CgProfile } from "react-icons/cg";
+import { useDispatch,useSelector } from "react-redux";
+import { clearErrors,login,register } from "../../actions/userAction";
+import {ToastContainer,toast} from 'react-toastify';
+import Loader from '../layout/Loader/Loader'
+import ProfileDummy from "../../assets/profileDummy.png" ;
 
-const LoginSignUp = () => {
+const LoginSignUp = ({history}) => {
+  const dispatch=useDispatch()
   const loginTab = useRef(null);
   const switcherTab = useRef(null);
   const registerTab = useRef(null);
-
+const {error,loading,isAuthenticated,token}=useSelector(state=>state.user)
+const payload=useSelector(state=>state.user.user)
   const [loginEmail, setLoginEmail] = React.useState("");
   const [loginPassword, setLoginPassword] = React.useState("");
     const [user, setUser] = React.useState({
@@ -17,15 +24,16 @@ const LoginSignUp = () => {
     email: "",
     password: "",
     });
+    const navigate=useNavigate();
 
     const { name, email, password} = user;
 
     const [avatar,setAvatar]=useState("");
-    const [avatarPreview,setAvatarPreview]=useState("");
+    const [avatarPreview,setAvatarPreview]=useState(ProfileDummy);
 
   const loginSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login Submit");
+    // e.preventDefault();
+   dispatch(login(loginEmail,loginPassword));
   };
 
   const registerSubmit= (e) => {
@@ -37,9 +45,39 @@ const LoginSignUp = () => {
     myform.set("email",email);
     myform.set("password",password);
     myform.set("avatar",avatar);
-    console.log("Signup Submit");
 
+    dispatch(register(myform))
   }
+  console.log(avatarPreview);
+
+  const registerDataChange=(e)=>{
+    if(e.target.name==="avatar"){
+      const reader=new FileReader();
+      reader.onload=()=>{
+        if(reader.readyState===2){
+          setAvatarPreview(reader.result);
+          setAvatar(reader.result);
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+      else{
+        setUser({...user,[e.target.name]:e.target.value});
+      }
+    }
+
+    useEffect(()=>{
+      console.log(avatarPreview);
+      if(error){
+        toast.error(error);
+        dispatch(clearErrors());
+      }
+      if(isAuthenticated){
+        toast.success("Login Successfully");
+         navigate("/account") 
+      }
+
+    },[dispatch,error,history,isAuthenticated]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {
@@ -58,7 +96,10 @@ const LoginSignUp = () => {
   };
 
   return (
-    <div className="LoginSignUpContainer">
+   <>
+    {loading ? <Loader/> :(
+      <>
+      <div className="LoginSignUpContainer">
       <div className="LoginSignUpBox">
         <div>
           <div className="login_signUp_toggle">
@@ -115,8 +156,9 @@ const LoginSignUp = () => {
               type="email"
               placeholder="Email"
               required
-              value={loginEmail}
-              onChange={(e) => setSignUpEmail(e.target.value)}
+              name="email"
+              value={email}
+              onChange={registerDataChange}
             />
           </div>
           <div className="signUpPassword">
@@ -125,11 +167,12 @@ const LoginSignUp = () => {
               type="password"
               placeholder="Password"
               required
-              value={loginPassword}
-              onChange={(e) => setSignUpPassword(e.target.value)}
+              name="password"
+              value={password}
+              onChange={registerDataChange}
             />
           </div>
-          <div className="registerImage">
+          <div className="registerImage" id="registerImage">
             <img src={avatarPreview} alt="Avatar Preview" />
             <input
               type="file"
@@ -147,6 +190,9 @@ const LoginSignUp = () => {
         </form>
       </div>
     </div>
+      </>
+    )}
+   </>
   );
 };
 

@@ -12,7 +12,7 @@ const {
   getAllUsers,
   getSingleUserDetails,
   updateRoleUserProfile,
-  deleteUserByAdmin
+  deleteUserByAdmin,
 } = require("../controllers/userController");
 const { isAuthenticatedUser, authorisedRoles } = require("../middleware/auth");
 // register touter
@@ -41,11 +41,15 @@ router.route("/me/update").put(isAuthenticatedUser, updateUserProfile);
 
 // admin routes---------------------------------------------
 // get all users
-router.route("/admin/users").get(isAuthenticatedUser,authorisedRoles("admin"), getAllUsers);
+router
+  .route("/admin/users")
+  .get(isAuthenticatedUser, authorisedRoles("admin"), getAllUsers);
 
 // get user details and delete user
-router.route("/admin/user/:id").get(isAuthenticatedUser,authorisedRoles("admin"), getSingleUserDetails)
-.put(isAuthenticatedUser,authorisedRoles("admin"),updateRoleUserProfile)
-.delete(isAuthenticatedUser,authorisedRoles("admin"),deleteUserByAdmin);
+router
+  .route("/admin/user/:id")
+  .get(isAuthenticatedUser, authorisedRoles("admin"), getSingleUserDetails)
+  .put(isAuthenticatedUser, authorisedRoles("admin"), updateRoleUserProfile)
+  .delete(isAuthenticatedUser, authorisedRoles("admin"), deleteUserByAdmin);
 
 module.exports = router;

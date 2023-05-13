@@ -5,18 +5,24 @@ const sendToken = require("../utils/jwtTokens");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const mongoose=require('mongoose');
+const cloudinary=require('cloudinary').v2;
 
 // register a user
 
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password } = req.body;
+  const mycloud=await cloudinary.uploader.upload(req.body.avatar,{
+    folder:"avatars",
+    width:150,
+    crop:"scale"
+    });
   const user = await User.create({
     name,
     email,
     password,
     avatar: {
-      public_id: "public_id",
-      url: "profilepicurl",
+      public_id: mycloud.public_id,
+      url: mycloud.secure_url,
     },
   });
 
@@ -148,7 +154,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 // get user details
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id);
-
+  console.log("Details",user);
   res.status(200).json({
     success: true,
     user,
@@ -183,6 +189,25 @@ exports.updateUserProfile = catchAsyncErrors(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
   };
+
+  if(req.body.avatar !== ''){
+    {
+      const user=await User.findById(req.user.id);
+      const image_id=user.avatar.public_id;
+
+      await cloudinary.uploader.destroy(image_id)
+      const result=await cloudinary.uploader.upload(req.body.avatar,{
+          folder:'avatars',
+          width:150,
+          crop:'scale'
+          });
+
+          newUser.avatar={
+              public_id:result.public_id,
+              url:result.secure_url
+          }
+    }
+  }
 
   const user = await User.findByIdAndUpdate(req.user, newUser, {
     new: true,
