@@ -9,8 +9,9 @@ import Loader from "../layout/Loader/Loader";
 import ProfileDummy from "../../assets/profileDummy.png";
 import MetaData from "../layout/MetaData";
 import {toast} from 'react-toastify';
+import { UPDATE_PROFILE_RESET } from "../../constants/userConstant";
 
-const UpdateProfile = ({ history }) => {
+const UpdateProfile = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { error, isUpdated, loading } = useSelector((state) => state.profileReducer);
@@ -50,8 +51,9 @@ const navigate=useNavigate();
       setEmail(user.email);
       setAvatarPreview(user.avatar.url);
     }
+    console.log(error, isUpdated,loading)
     if (error) {
-      toast.error(error);
+      window.alert.error(error);
     }
     if (isUpdated) {
       toast.success("User Updated Successfully");
@@ -64,7 +66,7 @@ const navigate=useNavigate();
     }
 
     dispatch(clearErrors());
-  }, [dispatch, error, isUpdated, history, user]);
+  }, [dispatch, error, isUpdated, user]);
 
   return (
    <>

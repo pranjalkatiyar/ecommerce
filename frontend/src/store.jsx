@@ -5,15 +5,22 @@ import {
   productDetailsReducer,
 } from "./reducers/productReducer";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { userReducer,profileReducer} from "./reducers/userReducer";
+import { userReducer,profileReducer,forgotPasswordReducer} from "./reducers/userReducer";
+import { cartReducer } from "./reducers/cartReducer";
 const reducer = combineReducers({
   products: productReducer,
   productDetails: productDetailsReducer,
   user: userReducer,
   profileReducer: profileReducer,
+  forgotPasswordReducer: forgotPasswordReducer,
+  cart:cartReducer
 });
 
-let initalState = {};
+let initalState = {
+  cart:{
+    cartItems:localStorage.getItem("cartItems")?JSON.parse(localStorage.getItem("cartItems")):[]
+  }
+};
 
 const middleware = [thunk];
 

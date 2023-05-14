@@ -19,7 +19,11 @@ import Profile from "./component/User/Profile";
 import Protectedroute from "./component/Route/Protectedroute";
 import UpdateProfile from "./component/User/UpdateProfile";
 import UpdatePassword from "./component/User/UpdatePassword";
-import { toast ,ToastContainer} from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import ForgotPassword from "./component/User/ForgotPassword";
+import ResetPassword from "./component/User/ResetPassword";
+import Cart from "./component/Cart/Cart";
+
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
@@ -34,44 +38,47 @@ function App() {
   }, []);
   return (
     <>
-    <Router>
-      <Header />
-      {isAuthenticated && <UserOptions user={user} />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products/:id" element={<ProductDetails />} />
-        <Route path="/products" element={<Product />} />
-        <Route path="/products/:keyword" element={<Product />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/login" element={<LoginSignUp />} />
-        <Route
-          path="/account"
-          element={
-            <Protectedroute>
-              <Profile />
-            </Protectedroute>
-          }
-        />
-        <Route
-          path="/account/update"
-          element={
-            <Protectedroute>
-              <UpdateProfile />
-            </Protectedroute>
-          }
-        />
-        <Route
-          path="/password/update"
-          element={
-            <Protectedroute>
-              <UpdatePassword />
-            </Protectedroute>
-          }
-        />
-      </Routes>
-      <Footer />
-    </Router>
-    <ToastContainer/>
+      <Router>
+        <Header />
+        {isAuthenticated && <UserOptions user={user} />}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/products" element={<Product />} />
+          <Route path="/products/:keyword" element={<Product />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/login" element={<LoginSignUp />} />
+          <Route
+            path="/account"
+            element={
+              <Protectedroute>
+                <Profile />
+              </Protectedroute>
+            }
+          />
+          <Route
+            path="/account/update"
+            element={
+              <Protectedroute>
+                <UpdateProfile />
+              </Protectedroute>
+            }
+          />
+          <Route
+            path="/password/update"
+            element={
+              <Protectedroute>
+                <UpdatePassword />
+              </Protectedroute>
+            }
+          />
+          <Route path="/password/forgot" element={<ForgotPassword />} />
+          <Route path="/password/reset/:token" element={<ResetPassword />} />
+            <Route path="/cart" element={<Cart />} />
+        </Routes>
+        <Footer />
+      </Router>
+      <ToastContainer />
     </>
   );
 }

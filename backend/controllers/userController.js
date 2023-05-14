@@ -4,18 +4,18 @@ const User = require("../modals/userModals");
 const sendToken = require("../utils/jwtTokens");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
-const mongoose=require('mongoose');
-const cloudinary=require('cloudinary').v2;
+const mongoose = require("mongoose");
+const cloudinary = require("cloudinary").v2;
 
 // register a user
 
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password } = req.body;
-  const mycloud=await cloudinary.uploader.upload(req.body.avatar,{
-    folder:"avatars",
-    width:150,
-    crop:"scale"
-    });
+  const mycloud = await cloudinary.uploader.upload(req.body.avatar, {
+    folder: "avatars",
+    width: 150,
+    crop: "scale",
+  });
   const user = await User.create({
     name,
     email,
@@ -154,7 +154,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 // get user details
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id);
-  console.log("Details",user);
+  console.log("Details", user);
   res.status(200).json({
     success: true,
     user,
@@ -168,11 +168,19 @@ exports.updateUserPassword = catchAsyncErrors(async (req, res, next) => {
   const isMatched = await user.comparePassword(req.body.oldPassword);
 
   if (!isMatched) {
+    // res.status(400).json({
+    //   success: false,
+    //   message: "Old password is incorrect",
+    // });
     return next(new ErrorHandler("Old password is incorrect", 400));
   }
 
   // confirmation and new password
   if (req.body.newPassword !== req.body.confirmPassword) {
+    res.status(400).json({
+      success: false,
+      message: "Password does not match",
+    });
     return next(new ErrorHandler("Password does not match", 400));
   }
 
@@ -190,22 +198,22 @@ exports.updateUserProfile = catchAsyncErrors(async (req, res, next) => {
     email: req.body.email,
   };
 
-  if(req.body.avatar !== ''){
+  if (req.body.avatar !== "") {
     {
-      const user=await User.findById(req.user.id);
-      const image_id=user.avatar.public_id;
+      const user = await User.findById(req.user.id);
+      const image_id = user.avatar.public_id;
 
-      await cloudinary.uploader.destroy(image_id)
-      const result=await cloudinary.uploader.upload(req.body.avatar,{
-          folder:'avatars',
-          width:150,
-          crop:'scale'
-          });
+      await cloudinary.uploader.destroy(image_id);
+      const result = await cloudinary.uploader.upload(req.body.avatar, {
+        folder: "avatars",
+        width: 150,
+        crop: "scale",
+      });
 
-          newUser.avatar={
-              public_id:result.public_id,
-              url:result.secure_url
-          }
+      newUser.avatar = {
+        public_id: result.public_id,
+        url: result.secure_url,
+      };
     }
   }
 
@@ -269,18 +277,18 @@ exports.updateRoleUserProfile = catchAsyncErrors(async (req, res, next) => {
 
 // delete user(admin)
 exports.deleteUserByAdmin = catchAsyncErrors(async (req, res, next) => {
- 
   const user = await User.findById(req.params.id);
 
-  if(!user){
-    return next(new ErrorHandler(`User not found with id:${req.params.id}`, 404))
+  if (!user) {
+    return next(
+      new ErrorHandler(`User not found with id:${req.params.id}`, 404)
+    );
   }
 
   await user.remove();
 
   res.status(200).json({
     success: true,
-    message:"User deleted successfully"
+    message: "User deleted successfully",
   });
 });
-

@@ -33,11 +33,10 @@ const UpdatePassword = ({ history }) => {
 
   useEffect(() => {
     if (error) {
-        alert.error(error);
         toast.error(error);
-       dispatch(clearErrors());
+        dispatch(clearErrors());
     }
-
+    console.log(error, isUpdated,loading);
     if (isUpdated) {
       toast.success("Profile Updated Successfully");
 
