@@ -27,7 +27,9 @@ import Shipping from "./component/Cart/Shipping";
 import ConfirmOrder from "./component/Cart/ConfirmOrder";
 import Stripe from "./component/Cart/Stripe";
 import OrderSuccess from "./component/Cart/OrderSuccess";
-import MyOrders from "./component/Orders/MyOrders"
+import MyOrders from "./component/Orders/MyOrders";
+import About from "./component/layout/About/About";
+import Contact from "./component/layout/Contact/Contact";
 
 
 function App() {
@@ -121,6 +123,8 @@ function App() {
               </Protectedroute>
             }
           />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact/>}/>
         </Routes>
         <Footer />
       </Router>

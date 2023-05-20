@@ -2,6 +2,7 @@ import React from "react";
 import { ReactNavbar } from "overlay-navbar";
 import {BsFillCartFill,BsSearch} from "react-icons/bs";
 import {CgProfile} from "react-icons/cg";
+import logo from "../../../assets/logo.png";
 
 const options = {
   burgerColorHover: "#eb4034",
@@ -11,7 +12,8 @@ const options = {
   ProfileIconElement:CgProfile,	
   cartIcon: true,
   CartIconElement: BsFillCartFill,
-  logoWidth: "20vmax",
+  logo:logo,
+  logoWidth: "10vmax",
   navColor1: "white",
   logoHoverSize: "10px",
   logoHoverColor: "#eb4034",
