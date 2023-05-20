@@ -1,13 +1,13 @@
 import React, { Fragment, useEffect } from "react";
-import { DataGrid } from "@material-ui/data-grid";
+import { DataGrid } from '@mui/x-data-grid';
 import "./myOrders.css";
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, myOrders } from "../../actions/orderAction";
 import Loader from "../layout/Loader/Loader";
 import { Link } from "react-router-dom";
-import { useAlert } from "react-alert";
-import Typography from "@mui/material/Typography";
+ import Typography from "@mui/material/Typography";
 import MetaData from "../layout/MetaData";
+import {toast} from "react-toastify"
  
 const MyOrders = () => {
   const dispatch = useDispatch();
@@ -77,12 +77,12 @@ const MyOrders = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      toast(error);
       dispatch(clearErrors());
     }
 
     dispatch(myOrders());
-  }, [dispatch, alert, error]);
+  }, [dispatch, error]);
 
   return (
     <Fragment>
