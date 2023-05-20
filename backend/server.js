@@ -17,7 +17,7 @@ process.on('uncaughtException',err=>{
 
 // console.log(youtube);
 app.use(cors({
-    origin:'http://localhost:4000,https://ecommerce-three-ashy.vercel.app/',  // allow all origins
+    origin:'*',  // allow all origins
  }));
 
 // setting up cloudinary config
