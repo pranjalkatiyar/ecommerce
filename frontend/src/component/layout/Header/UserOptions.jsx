@@ -91,8 +91,7 @@ const UserOptions = ({ user }) => {
           ></SpeedDialAction>
         ))}
 
-        <ToastContainer />
-      </SpeedDial>
+       </SpeedDial>
     </>
   );
 };

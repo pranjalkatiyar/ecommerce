@@ -35,4 +35,13 @@ const removeItemFromCart = (id) => async (dispatch, getState) => {
 };
 
 
-export { addItemsToCart ,removeItemFromCart};
+// save shipping info
+
+const saveShippingInfo = (data) => async (dispatch) => {
+  dispatch({
+    type: SAVE_SHIPPING_INFO,
+    payload: data,
+  });
+}
+
+export { addItemsToCart ,removeItemFromCart,saveShippingInfo};

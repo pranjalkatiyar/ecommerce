@@ -23,6 +23,12 @@ import { toast, ToastContainer } from "react-toastify";
 import ForgotPassword from "./component/User/ForgotPassword";
 import ResetPassword from "./component/User/ResetPassword";
 import Cart from "./component/Cart/Cart";
+import Shipping from "./component/Cart/Shipping";
+import ConfirmOrder from "./component/Cart/ConfirmOrder";
+import Stripe from "./component/Cart/Stripe";
+import OrderSuccess from "./component/Cart/OrderSuccess";
+import MyOrders from "./comoponent/Orders/MyOrders"
+
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -74,11 +80,62 @@ function App() {
           />
           <Route path="/password/forgot" element={<ForgotPassword />} />
           <Route path="/password/reset/:token" element={<ResetPassword />} />
-            <Route path="/cart" element={<Cart />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route
+            path="/shipping"
+            element={
+              <Protectedroute>
+                <Shipping />
+              </Protectedroute>
+            }
+          />
+          <Route
+            path="/order/confirm"
+            element={
+              <Protectedroute>
+                <ConfirmOrder />
+              </Protectedroute>
+            }
+          />
+          <Route
+            path="/process/payment"
+            element={
+              <Protectedroute>
+                <Stripe />
+              </Protectedroute>
+            }
+          ></Route>
+          <Route
+            path="/success"
+            element={
+              <Protectedroute>
+                <OrderSuccess />
+              </Protectedroute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <Protectedroute>
+                <MyOrders />
+              </Protectedroute>
+            }
+          />
         </Routes>
         <Footer />
       </Router>
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-center"
+        autoClose={4999}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }

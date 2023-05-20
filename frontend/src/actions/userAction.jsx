@@ -39,20 +39,19 @@ import {
   USER_DETAILS_FAIL,
 } from "../constants/userConstant";
 import axiosInstance from "../../AxiosInstance/axiosInstance.jsx";
-
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 // login action
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN_REQUEST });
-
     const config = { headers: { "Content-Type": "application/json" } };
     const { data } = await axiosInstance.post(
       "/login",
       { email, password },
       config
     );
-
-    document.cookie = `token=${data.token}; path=/`;
+    cookies.set("token",data.token,{path:"/"});
 
     dispatch({ type: LOGIN_SUCCESS, payload: data.user, token: data.token });
   } catch (error) {
@@ -81,9 +80,9 @@ export const loaduser = () => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER_REQUEST });
 
-    const cookiesToken = document.cookie.match(new RegExp(name + "=([^;]+)"));
+    const cookie=cookies.get("token");
     const { data } = await axiosInstance.get("/me", {
-      headers: { cookies: cookiesToken[1] },
+      headers: { cookies: cookie },
     });
     console.log("data", data);
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
@@ -96,8 +95,8 @@ export const loaduser = () => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     await axiosInstance.get("/logout");
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    dispatch({ type: LOGOUT_SUCCESS });
+    cookies.remove("token");
+     dispatch({ type: LOGOUT_SUCCESS });
   } catch (error) {
     dispatch({ type: LOGOUT_FAIL, payload: error.response });
   }
@@ -109,11 +108,10 @@ export const updateProfile = (userdata) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PROFILE_REQUEST });
 
-    const cookiesToken = document.cookie.match(new RegExp(name + "=([^;]+)"));
-    const config = {
+     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
-        cookies: cookiesToken[1],
+        cookies: cookies.get("token"),
       },
     };
 
@@ -130,11 +128,10 @@ export const updatePassword = (userdata) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PASSWORD_REQUEST });
 
-    const cookiesToken = document.cookie.match(new RegExp(name + "=([^;]+)"));
-    const config = {
+     const config = {
       headers: {
         "Content-Type": "application/json",
-        cookies: cookiesToken[1],
+        cookies: cookies.get("token"),
       },
     };
 

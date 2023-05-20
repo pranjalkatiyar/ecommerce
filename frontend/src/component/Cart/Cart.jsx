@@ -6,9 +6,11 @@ import { addItemsToCart, removeItemFromCart } from "../../actions/cartAction";
 import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { MdRemoveShoppingCart } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Cart = ({ history }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
 
   const increaseQuantity = (id, quantity, stock) => {
@@ -31,9 +33,9 @@ const Cart = ({ history }) => {
     dispatch(removeItemFromCart(id));
   };
 
-  //   const checkoutHandler = () => {
-  //     history.push("/login?redirect=shipping");
-  //   };
+    const checkoutHandler = () => {
+      navigate("/shipping");
+    };
 
   return (
     <Fragment>
@@ -103,7 +105,7 @@ const Cart = ({ history }) => {
               </div>
               <div></div>
               <div className="checkOutBtn">
-                {/* <button onClick={checkoutHandler}>Check Out</button> */}
+                <button onClick={checkoutHandler}>Check Out</button>
               </div>
             </div>
           </div>

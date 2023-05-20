@@ -56,8 +56,7 @@ useEffect(()=>{
         <div className="container" id="container">
         {products && products.map((item)=>(<Product product={item}/>))}
         </div>
-        <ToastContainer/>
-        
+         
         </Fragment>
         
         )}

@@ -6,7 +6,7 @@ import "./LoginSignUp.css";
 import { CgProfile } from "react-icons/cg";
 import { useDispatch,useSelector } from "react-redux";
 import { clearErrors,login,register } from "../../actions/userAction";
-import {ToastContainer,toast} from 'react-toastify';
+import {toast} from 'react-toastify';
 import Loader from '../layout/Loader/Loader'
 import ProfileDummy from "../../assets/profileDummy.png" ;
 

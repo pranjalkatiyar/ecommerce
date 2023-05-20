@@ -100,8 +100,7 @@ const UpdatePassword = ({ history }) => {
               </form>
             </div>
           </div>
-          <ToastContainer/>
-        </Fragment>
+         </Fragment>
       )}
     </Fragment>
   );
