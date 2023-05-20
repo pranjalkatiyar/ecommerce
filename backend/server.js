@@ -1,7 +1,7 @@
 const app=require('./app');
 const dotenv=require('dotenv');
 const connectDatabase=require('./config/database');
-dotenv.config({path:'backend/config/config.env'});
+dotenv.config({});
 const cors=require('cors');
 const cloudinary=require('cloudinary');
 
@@ -27,6 +27,13 @@ cloudinary.config({
     api_key:process.env.CLOUDINARY_API_KEY,
     api_secret:process.env.CLOUDINARY_API_SECRET
 });
+
+app.get("/testing",(req,res)=>{
+    res.status(200).json({
+        msg:"Connected",
+        success:true
+    });
+})
 
 const server=app.listen(process.env.PORT,()=>{
     console.log(`Server is running on port ${process.env.PORT}`);

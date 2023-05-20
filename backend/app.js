@@ -6,7 +6,7 @@ const cors=require('cors');
 const dotenv=require('dotenv');
 const fileupload=require('express-fileupload');
 
-dotenv.config({path:'backend/config/config.env'});
+dotenv.config({path:"/config.env"});
 
 app.use(express.json());
 app.use(cookieParser())
