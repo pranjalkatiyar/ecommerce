@@ -80,8 +80,7 @@ const Payment = () => {
               postal_code: paymentData.postalCode,
               state: paymentData.state,
               city: paymentData.city,
-              country: paymentData.country,
-            },
+             },
           },
         },
       });

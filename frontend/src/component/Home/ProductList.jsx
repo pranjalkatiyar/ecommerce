@@ -14,7 +14,7 @@ const ProductList = ({product}) => {
   console.log(product.images)
   return (
     // product.map(product=>{
-    <Link className='productCard' to={product._id}>
+    <Link className='productCard' to={`/products/${product._id}`}>
         <img src={product.images[0].url} alt={product.name} />
         <p>{product.name}</p>
         <div>
