@@ -8,6 +8,12 @@ const cloudinary=require('cloudinary');
 // connection datbase
 connectDatabase();
 
+if(process.env.NODE_ENV!=='PRODUCTION'){
+    const morgan=require('morgan');
+    app.use(express.static('frontend/build'));
+    app.use(morgan('dev'));
+}
+
 // Handle uncaught exception
 process.on('uncaughtException',err=>{
     console.log(`Error: ${err.message}`);
