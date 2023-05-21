@@ -5,9 +5,10 @@ import {
 } from "../constants/cartConstant";
 
 import axiosInstance from "../../AxiosInstance/axiosInstance.jsx";
+import axios from "axios";
 
 const addItemsToCart = (id, quantity) => async (dispatch, getState) => {
-  const { data } = await axiosInstance.get(`/product/${id}`);   
+  const { data } = await axios.get(`https://ecommerce-wdq0.onrender.com/api/v1/product/${id}`);   
    dispatch({
     type: ADD_TO_CART,
     payload: {

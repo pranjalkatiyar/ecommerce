@@ -11,7 +11,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import Payment from "./Payment";
 import { toast } from "react-toastify";
 import axiosInstance from "../../../AxiosInstance/axiosInstance";
-
+import axios from "axios";
 const ConfirmOrder = ({ history }) => {
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);

@@ -1,6 +1,7 @@
 // import axios from '../../AxiosInstance/axiosInstance.jsx';
 
 import axiosInstance from "../../AxiosInstance/axiosInstance.jsx";
+import axios from "axios";
 
 import {
   ALL_PRODUCTS_REQUEST,
@@ -18,12 +19,12 @@ export const getProducts =
     try {
       dispatch({ type: ALL_PRODUCTS_REQUEST });
 
-       let link = `/products?keyword=${keyword}&page=${currentPage}&ratings[gte]=${rating}`;
+       let link = `https://ecommerce-wdq0.onrender.com/api/v1/products?keyword=${keyword}&page=${currentPage}&ratings[gte]=${rating}`;
 
        if(category)
-        link=`/products?keyword=${keyword}&page=${currentPage}&category=${category}&ratings[gte]=${rating}`;
+        link=` https://ecommerce-wdq0.onrender.com/api/v1/products?keyword=${keyword}&page=${currentPage}&category=${category}&ratings[gte]=${rating}`;
 
-      const { data } = await axiosInstance.get(link);
+      const { data } = await axios.get(link);
 
       dispatch({
         type: ALL_PRODUCTS_SUCCESS,
@@ -47,7 +48,7 @@ export const getProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-    const { data } = await axiosInstance.get(`/product/${id}`);
+    const { data } = await axios.get(`https://ecommerce-wdq0.onrender.com/product/${id}`);
     console.log("data:", data);
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,

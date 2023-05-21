@@ -12,8 +12,7 @@ import {toast} from "react-toastify"
 const MyOrders = () => {
   const dispatch = useDispatch();
 
-  const alert = useAlert();
-
+ 
   const { loading, error, orders } = useSelector((state) => state.myOrders);
   const { user } = useSelector((state) => state.user);
 
@@ -91,7 +90,7 @@ const MyOrders = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="myOrdersPage">
+        <div className="myOrdersPage" style={{marginTop:"5rem"}}>
           <DataGrid
             rows={rows}
             columns={columns}

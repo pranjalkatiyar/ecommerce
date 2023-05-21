@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import axiosInstance from "../../../AxiosInstance/axiosInstance";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
+import axios from "axios";
 
 const Stripe = () => {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -17,8 +18,8 @@ const Stripe = () => {
           cookies: cookie,
         },
       };
-      const {data} = await axiosInstance.get(
-        "/stripeapi",
+      const {data} = await axios.get(
+        "https://ecommerce-wdq0.onrender.com/api/v1/stripeapi",
         config
       );
  

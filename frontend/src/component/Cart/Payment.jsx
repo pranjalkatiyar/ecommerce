@@ -18,7 +18,7 @@ import axiosInstance from "../../../AxiosInstance/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import {createOrder,clearErrors} from "../../actions/orderAction";
-
+import axios from "axios";
 
 const Payment = () => {
   const navigate = useNavigate();
@@ -59,8 +59,8 @@ const Payment = () => {
         },
       };
 
-      const { data } = await axiosInstance.post(
-        "/payment/process",
+      const { data } = await axios.post(
+        "https://ecommerce-wdq0.onrender.com/api/v1/payment/process",
         paymentData,
         config
       );

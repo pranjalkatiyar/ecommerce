@@ -38,6 +38,7 @@ import {
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
 } from "../constants/userConstant";
+import axios from "axios";
 import axiosInstance from "../../AxiosInstance/axiosInstance.jsx";
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
@@ -46,8 +47,8 @@ export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN_REQUEST });
     const config = { headers: { "Content-Type": "application/json" } };
-    const { data } = await axiosInstance.post(
-      "/login",
+    const { data } = await axios.post(
+      "https://ecommerce-wdq0.onrender.com/api/v1/login",
       { email, password },
       config
     );
@@ -66,7 +67,7 @@ export const register = (userdata) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-    const { data } = await axiosInstance.post("/register", userdata, config);
+    const { data } = await axios.post("https://ecommerce-wdq0.onrender.com/api/v1/register", userdata, config);
 
     dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
   } catch (error) {
@@ -81,7 +82,7 @@ export const loaduser = () => async (dispatch) => {
     dispatch({ type: LOAD_USER_REQUEST });
 
     const cookie=cookies.get("token");
-    const { data } = await axiosInstance.get("/me", {
+    const { data } = await axios.get("https://ecommerce-wdq0.onrender.com/api/v1/me", {
       headers: { cookies: cookie },
     });
     console.log("data", data);
@@ -94,7 +95,7 @@ export const loaduser = () => async (dispatch) => {
 // logout user action
 export const logout = () => async (dispatch) => {
   try {
-    await axiosInstance.get("/logout");
+    await axios.get("https://ecommerce-wdq0.onrender.com/api/v1/logout");
     cookies.remove("token");
      dispatch({ type: LOGOUT_SUCCESS });
   } catch (error) {
@@ -115,7 +116,7 @@ export const updateProfile = (userdata) => async (dispatch) => {
       },
     };
 
-    const { data } = await axiosInstance.put("/me/update", userdata, config);
+    const { data } = await axios.put("https://ecommerce-wdq0.onrender.com/api/v1/me/update", userdata, config);
     console.log("data", data);
     dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success });
   } catch (error) {
@@ -135,8 +136,8 @@ export const updatePassword = (userdata) => async (dispatch) => {
       },
     };
 
-    const { data } = await axiosInstance.put(
-      "/password/update",
+    const { data } = await axios.put(
+      "https://ecommerce-wdq0.onrender.com/api/v1/password/update",
       userdata,
       config
     );
@@ -153,7 +154,7 @@ export const forgotPassword = (email) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axios.post(`/password/forgot`, email, config);
+    const { data } = await axios.post(`https://ecommerce-wdq0.onrender.com/api/v1/password/forgot`, email, config);
 
     dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: data.message });
   } catch (error) {
@@ -172,7 +173,7 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
     const config = { headers: { "Content-Type": "application/json" } };
 
     const { data } = await axios.put(
-      `password/reset/${token}`,
+      `https://ecommerce-wdq0.onrender.com/api/v1/password/reset/${token}`,
       passwords,
       config
     );
