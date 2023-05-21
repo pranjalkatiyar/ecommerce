@@ -7,7 +7,11 @@ const dotenv=require('dotenv');
 const fileupload=require('express-fileupload');
 
 dotenv.config({path:"/config.env"});
-
+if(process.env.NODE_ENV!=='PRODUCTION'){
+    const morgan=require('morgan');
+    app.use(express.static('frontend/build'));
+    app.use(morgan('dev'));
+}
 app.use(express.json());
 app.use(cookieParser())
 app.use(cors({
